@@ -1,0 +1,193 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar {
+    background-color: #1f344a;
+    color: #fff;
+    padding: 20px;
+    width: 255px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebar a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 0;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #0056b3;
+}
+
+/* Main content styling */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow: auto;
+}
+
+/* Spedizioni list styling */
+.spedizioni-list {
+    margin-top: 20px;
+}
+
+/* Singola spedizione styling */
+.spedizione {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.spedizione:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Button styling */
+.consegna-btn,
+.non-consegna-btn,
+.delete-btn,
+.form-aggiungi button,
+.search-container button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.consegna-btn,
+.form-aggiungi button {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.non-consegna-btn {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.delete-btn,
+.search-container button {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.delete-btn:hover,
+.consegna-btn:hover,
+.non-consegna-btn:hover,
+.form-aggiungi button:hover,
+.search-container button:hover {
+    opacity: 0.8;
+}
+
+/* Input, select, textarea styling */
+input[type="text"],
+select,
+textarea,
+button {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+    border-color: #007bff;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Stile per il modal non visibile di default */
+#modalModifica {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.btn-aggiungi-spedizione {
+    background-color: #007bff; /* Colore blu */
+    color: #fff; /* Testo bianco */
+    padding: 15px 30px; /* Rendi il bottone più grande */
+    font-size: 12px; /* Dimensione del testo più grande */
+    border: none; /* Nessun bordo */
+    border-radius: 20px; /* Bordo arrotondato */
+    cursor: pointer; /* Cambia il cursore in una mano per indicare che è cliccabile */
+    transition: background-color 0.3s; /* Transizione fluida per il cambio colore */
+}
+
+.btn-aggiungi-spedizione:hover {
+    background-color: #0056b3; /* Colore blu più scuro all'hover */
+}
+.export-btn {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.export-container {
+    margin: 20px 0;
+    text-align: center; /* Centra il bottone se desiderato */
+}

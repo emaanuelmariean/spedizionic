@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Spedizioni</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+
+ 
+
+    <div class="container">    
+
+
+     
+    
+        <div class="sidebar">
+            <a href="/">Home</a>
+            <a href="#myaccount">Il Mio Account</a>
+            <a href="{{ url_for('mostra_categoria', nome_categoria='Generale') }}">Spedizioni Generali ({{ spedizioni_generali }})</a>
+            <a href="{{ url_for('mostra_categoria', nome_categoria='Smartpaper') }}">Progetto Smartpaper ({{ spedizioni_smartpaper }})</a>
+            <a href="/calendario">Calendario Spedizioni</a>
+        </div>
+        
+        
+
+        <div class="main-content">
+            <h1>Dashboard Spedizioni</h1>
+            <div class="export-container">
+                <h2>Esporta Spedizioni in Excel</h2><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 48 48">
+                    <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path><path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z"></path><path fill="#0c8045" d="M14 15.003H29V24.005000000000003H14z"></path><path fill="#17472a" d="M14 24.005H29V33.055H14z"></path><g><path fill="#29c27f" d="M42.256,6H29v9.003h15V7.744C44,6.781,43.219,6,42.256,6z"></path><path fill="#27663f" d="M29,33.054V42h13.257C43.219,42,44,41.219,44,40.257v-7.202H29z"></path><path fill="#19ac65" d="M29 15.003H44V24.005000000000003H29z"></path><path fill="#129652" d="M29 24.005H44V33.055H29z"></path></g><path fill="#0c7238" d="M22.319,34H5.681C4.753,34,4,33.247,4,32.319V15.681C4,14.753,4.753,14,5.681,14h16.638 C23.247,14,24,14.753,24,15.681v16.638C24,33.247,23.247,34,22.319,34z"></path><path fill="#fff" d="M9.807 19L12.193 19 14.129 22.754 16.175 19 18.404 19 15.333 24 18.474 29 16.123 29 14.013 25.07 11.912 29 9.526 29 12.719 23.982z"></path>
+                    </svg>
+                <form action="/esporta_excel" method="get">
+                    <select name="categoria" required>
+                        <option value="Tutte">Tutte le Spedizioni</option>
+                        <option value="Generale">Spedizioni in Generale</option>
+                        <option value="Smartpaper">Spedizione per Progetto Smartpaper</option>
+                        <!-- Aggiungi altre categorie come necessario -->
+                    </select>
+                    <button type="submit">Esporta</button>
+                </form>
+            </div>
+<!-- Modal Modifica Spedizione -->
+<div id="modalModifica" style="display:none;">
+    <div class="modal-content">
+        <span onclick="chiudiModalModifica()" class="close">&times;</span>
+        <form id="formModificaSpedizione" action="/modifica_spedizione" method="post">
+            <input type="hidden" name="id_spedizione" id="id_spedizione">
+            <input type="text" name="destinatario" id="destinatario" placeholder="Destinatario">
+            <input type="text" name="descrizione" id="descrizione" placeholder="Descrizione">
+            <input type="text" name="categoria" id="categoria" placeholder="Categoria">
+            <input type="text" name="seriale" id="seriale" placeholder="Seriale PC">
+            <input type="text" name="modello" id="modello" placeholder="Modello PC">
+            <input type="text" name="nome_utente" id="nome_utente" placeholder="Nome Utente">
+            <input type="date" name="data" id="data" placeholder="Data">
+            <button type="submit">Salva Modifiche</button>
+        </form>
+        
+    </div>
+</div>
+
+            <div class="form-container">
+                <form action="/aggiungi" method="POST">
+                    <!-- Campi del form per l'input -->
+                    <input type="text" name="destinatario" placeholder="Destinatario" required>
+                    <textarea name="descrizione" placeholder="Descrizione" required></textarea>
+                    <input type="date" name="data" required>
+                    <input type="text" name="nome_utente" placeholder="Nome Utente" required>
+                    <input type="text" name="seriale" placeholder="Seriale PC" required>
+                    <input type="text" name="modello" placeholder="Modello PC" required>
+                    <select name="categoria" required>
+                        <option value="">Seleziona Categoria</option>
+                        <option value="Generale">Spedizioni in Generale</option>
+                        <option value="Smartpaper">Spedizione per Progetto Smartpaper</option>
+                    </select>
+                    <button type="submit" class="btn-aggiungi-spedizione">Aggiungi Spedizione</button>
+
+                </form>
+                
+            </div>
+
+            <div class="search-container">
+                <form action="/ricerca" method="GET">
+                    <input type="date" name="data_inizio" placeholder="Da" required>
+                    <input type="date" name="data_fine" placeholder="A" required>
+                    <button type="submit">Cerca Spedizioni</button>
+                </form>
+            </div>
+
+            <div class="spedizioni-list">
+                <h2>Spedizioni Effettuate</h2>
+                {% for spedizione in spedizioni %}
+                    <div class="spedizione">  <p><strong>Data:</strong> {{ spedizione.data.strftime('%Y-%m-%d') }}</p>
+                        <p><strong>Destinatario:</strong> {{ spedizione.destinatario }}</p>
+                    <p><strong>Descrizione:</strong> {{ spedizione.descrizione }}</p>
+                    <p><strong>Categoria:</strong> {{ spedizione.categoria }}</p>
+                    <p><strong>Seriale PC:</strong> {{ spedizione.seriale_pc }}</p>
+                    <p><strong>Modello PC:</strong> {{ spedizione.modello_pc }}</p>
+                    <p><strong>Nome Utente:</strong> {{ spedizione.nome_utente }}</p>
+                   
+                    <p><strong>Consegnato:</strong> {% if spedizione.consegnato %}Sì{% else %}No{% endif %}</p>
+                        <a href="/toggle_consegna/{{ spedizione.id }}" class="toggle-consegna-btn {% if spedizione.consegnato %}consegna-btn{% else %}non-consegna-btn{% endif %}">Cambia Stato Consegna</a>
+    <a href="/cancella/{{ spedizione.id }}" class="delete-btn">Cancella</a>
+    <button onclick="apriModalModifica({{ spedizione.id }}, '{{ spedizione.destinatario }}', '{{ spedizione.descrizione }}', '{{ spedizione.categoria }}', '{{ spedizione.seriale_pc }}', '{{ spedizione.modello_pc }}', '{{ spedizione.nome_utente }}', '{{ spedizione.data.strftime('%Y-%m-%d') }}')">Modifica</button>
+
+</div>
+{% endfor %}
+            </div>
+        </div>
+    </div>
+<script>
+// Funzione per aprire il modal di modifica
+function apriModalModifica(idSpedizione, destinatario, descrizione, categoria, serialePc, modelloPc, nomeUtente, data) {
+    // Assegna i valori ai campi del form nel modal
+    document.getElementById('id_spedizione').value = idSpedizione;
+    document.getElementById('destinatario').value = destinatario;
+    document.getElementById('descrizione').value = descrizione;
+    document.getElementById('categoria').value = categoria;
+    document.getElementById('seriale').value = serialePc;
+    document.getElementById('modello').value = modelloPc;
+    document.getElementById('nome_utente').value = nomeUtente;
+    document.getElementById('data').value = data;
+
+    // Mostra il modal
+    document.getElementById('modalModifica').style.display = 'block';
+}
+
+// Funzione per chiudere il modal di modifica
+function chiudiModalModifica() {
+    document.getElementById('modalModifica').style.display = 'none';
+}
+</script>
+
+</body>
+</html>

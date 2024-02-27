@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendario Spedizioni</title>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+</head>
+<body>
+    <h1>Calendario Spedizioni</h1> <a href="/" class="home-button"><i class="fa fa-home"></i> HOME</a>
+    <div id='calendarioSpedizioni'></div>
+    <script>
+      $(document).ready(function() {
+        $('#calendarioSpedizioni').fullCalendar({
+          locale: 'it',
+          events: {{ spedizioni_data | tojson | safe }},
+          eventRender: function(event, element) {
+            const dettagli = `<br/>Destinatario: ${event.destinatario}` +
+                             `<br/>Stato: ${event.consegnato ? "Consegnato" : "In attesa"}` +
+                             `<br/>Utente: ${event.nome_utente}` +
+                             `<br/>Seriale PC: ${event.seriale_pc}` +
+                             `<br/>Modello PC: ${event.modello_pc}` +
+                             `<br/>Categoria: ${event.categoria}`;
+            element.find('.fc-title').append(dettagli);
+          }
+        });
+      });
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: {{ spedizioni_data | tojson }},
+            eventColor: function(event) {
+                return event.color;  // Utilizza il campo 'color' per impostare il colore dell'evento
+            }
+        });
+        calendar.render();
+    });
+    </script>
+</body>
+</html>

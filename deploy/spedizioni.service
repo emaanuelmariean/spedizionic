@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve a flask app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/spedizionic
+Environment="PATH=/home/ubuntu/spedizionic/venv/bin"
+ExecStart=/home/ubuntu/spedizionic/venv/bin/gunicorn --workers 1 --reload --bind unix:spedizionic.sock -m 007 app:app
+
+[Install]
+WantedBy=multi-user.target

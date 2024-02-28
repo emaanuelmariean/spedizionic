@@ -4,7 +4,7 @@
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/ubuntu/HelloFlask/spedizionic.sock;
+        proxy_pass http://unix:/home/ubuntu/spedizionic/spedizionic.sock;
     }
 }
 
